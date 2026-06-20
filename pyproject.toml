@@ -7,7 +7,7 @@ name = "revolut-python"
 version = "0.1.0"
 description = "Typed Python client for the Revolut Merchant API (sync + async)."
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 license = { file = "LICENSE" }
 authors = [{ name = "Robert Ruben", email = "robert.benitez@treew.com" }]
 keywords = ["revolut", "merchant", "payments", "api", "sdk", "fintech"]
@@ -17,7 +17,6 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
@@ -51,7 +50,7 @@ packages = ["src/revolut"]
 
 [tool.ruff]
 line-length = 100
-target-version = "py39"
+target-version = "py310"
 src = ["src", "tests"]
 
 [tool.ruff.lint]
@@ -62,7 +61,7 @@ ignore = ["B008"]
 known-first-party = ["revolut"]
 
 [tool.mypy]
-python_version = "3.9"
+python_version = "3.10"
 strict = true
 files = ["src/revolut"]
 plugins = ["pydantic.mypy"]

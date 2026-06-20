@@ -7,7 +7,7 @@ asynchronous clients. Versioning follows [SemVer](https://semver.org/).
 
 - [x] Project scaffolding: `src` layout, `hatchling` packaging, MIT license
 - [x] Tooling: `ruff` (lint + format), `mypy --strict`, `pytest` + `respx`
-- [x] CI matrix (Python 3.9–3.13) via GitHub Actions
+- [x] CI matrix (Python 3.10–3.13) via GitHub Actions
 - [ ] Config + constants (base URLs, API version header)
 - [ ] Exception hierarchy mapped from HTTP status codes
 - [ ] Core HTTP layer (sync `httpx.Client` + async `httpx.AsyncClient`)
