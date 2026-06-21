@@ -13,6 +13,10 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   update, delete; plus the `PaymentMethod` model.
 - New resources (sync + async) with models: `subscriptions`, `payouts`,
   `disputes`, `report_runs`, `locations`.
+- Hardening: optional retry `jitter` on `RetryConfig`, per-request `timeout`
+  override, and debug logging via the `revolut` logger.
+- Live sandbox integration test suite under `tests/integration` (skipped unless
+  `REVOLUT_SECRET_KEY` is set).
 
 ## [0.1.0] - 2026-06-21
 

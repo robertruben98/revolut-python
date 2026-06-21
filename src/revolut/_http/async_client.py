@@ -15,6 +15,7 @@ from .base import (
     RetryConfig,
     build_headers,
     is_retryable,
+    logger,
     parse_response,
     retry_after_from,
 )
@@ -50,8 +51,12 @@ class AsyncTransport:
             api_version=self._api_version,
             idempotency_key=spec.idempotency_key,
         )
+        extra: dict[str, Any] = {}
+        if spec.timeout is not None:
+            extra["timeout"] = spec.timeout
         attempt = 0
         while True:
+            logger.debug("revolut request: %s %s", spec.method, spec.path)
             try:
                 response = await self._client.request(
                     spec.method,
@@ -59,15 +64,21 @@ class AsyncTransport:
                     params=spec.params,
                     json=spec.json,
                     headers=headers,
+                    **extra,
                 )
             except httpx.HTTPError as exc:  # network/timeout
                 raise APIConnectionError(str(exc)) from exc
+            logger.debug("revolut response: %s -> %s", spec.path, response.status_code)
             try:
                 return parse_response(response)
             except APIStatusError as exc:
                 if not is_retryable(exc, attempt, self._retry):
                     raise
-                await self._sleep(self._retry.backoff_seconds(attempt, retry_after_from(exc)))
+                delay = self._retry.backoff_seconds(attempt, retry_after_from(exc))
+                logger.debug(
+                    "revolut retry %s after %.3fs (status %s)", attempt + 1, delay, exc.status_code
+                )
+                await self._sleep(delay)
                 attempt += 1
 
     async def aclose(self) -> None:

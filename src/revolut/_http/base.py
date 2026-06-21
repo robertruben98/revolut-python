@@ -9,6 +9,9 @@ async) lives in :mod:`revolut._http.sync_client` and
 
 from __future__ import annotations
 
+import logging
+import random
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from typing import Any
 
@@ -22,6 +25,9 @@ from ..exceptions import (
     exception_for_status,
 )
 
+#: Library logger. Attach a handler / set level to DEBUG to trace requests.
+logger = logging.getLogger("revolut")
+
 
 @dataclass
 class RequestSpec:
@@ -32,6 +38,7 @@ class RequestSpec:
     params: dict[str, Any] | None = None
     json: Any | None = None
     idempotency_key: str | None = None
+    timeout: float | None = None
 
 
 @dataclass
@@ -41,15 +48,31 @@ class RetryConfig:
     max_retries: int = 2
     backoff_factor: float = 0.5
     max_backoff: float = 30.0
+    jitter: float = 0.0
     retry_statuses: frozenset[int] = field(
         default_factory=lambda: frozenset({429, 500, 502, 503, 504})
     )
 
-    def backoff_seconds(self, attempt: int, retry_after: float | None) -> float:
-        """Seconds to wait before the next attempt (0-indexed ``attempt``)."""
+    def backoff_seconds(
+        self,
+        attempt: int,
+        retry_after: float | None,
+        rng: Callable[[], float] | None = None,
+    ) -> float:
+        """Seconds to wait before the next attempt (0-indexed ``attempt``).
+
+        When ``jitter`` > 0, up to ``jitter`` * base extra seconds are added
+        (using ``rng``, defaulting to :func:`random.random`) to de-correlate
+        retries from concurrent clients.
+        """
         if retry_after is not None:
-            return min(retry_after, self.max_backoff)
-        return min(self.backoff_factor * (2.0**attempt), self.max_backoff)
+            base = min(retry_after, self.max_backoff)
+        else:
+            base = min(self.backoff_factor * (2.0**attempt), self.max_backoff)
+        if self.jitter:
+            draw = (rng or random.random)()
+            base = min(base + draw * self.jitter * base, self.max_backoff)
+        return base
 
 
 def build_headers(
