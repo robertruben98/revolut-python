@@ -188,7 +188,16 @@ except RevolutError:
 ```
 
 Transient failures (`429`, `5xx`) are retried automatically with exponential
-backoff; tune via `RetryConfig`.
+backoff; tune via `RetryConfig` (including optional `jitter`). Enable request
+tracing with the `revolut` logger:
+
+```python
+import logging
+logging.getLogger("revolut").setLevel(logging.DEBUG)
+
+from revolut import RetryConfig
+client = RevolutMerchantClient(secret_key="sk_...", retry=RetryConfig(max_retries=4, jitter=0.3))
+```
 
 ## Development
 
@@ -196,7 +205,13 @@ backoff; tune via `RetryConfig`.
 pip install -e ".[dev]"
 ruff check . && ruff format --check .
 mypy
-pytest
+pytest                       # hermetic unit tests (mocked HTTP)
+```
+
+Live sandbox integration tests are skipped unless a sandbox key is provided:
+
+```bash
+REVOLUT_SECRET_KEY=sk_... pytest tests/integration -v
 ```
 
 ## License
