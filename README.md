@@ -199,6 +199,22 @@ from revolut import RetryConfig
 client = RevolutMerchantClient(secret_key="sk_...", retry=RetryConfig(max_retries=4, jitter=0.3))
 ```
 
+## Stability and versioning
+
+This project follows [SemVer](https://semver.org/). From **1.0.0** the public API
+is the set of names exported from the top-level `revolut` package (i.e.
+`revolut.__all__`) plus the documented resource attributes on the clients.
+
+- **Patch** (`1.0.x`): bug fixes, no API changes.
+- **Minor** (`1.x.0`): backwards-compatible additions (new resources, fields,
+  optional arguments).
+- **Major** (`x.0.0`): backwards-incompatible changes.
+
+Anything under a leading underscore (e.g. `revolut._http`) is internal and may
+change at any time. Deprecations are announced in the [CHANGELOG](CHANGELOG.md),
+keep working for at least one minor release, and emit `DeprecationWarning` before
+removal.
+
 ## Development
 
 ```bash

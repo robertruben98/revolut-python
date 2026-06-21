@@ -1,0 +1,40 @@
+site_name: revolut-merchant-py
+site_description: Typed Python client for the Revolut Merchant API (sync + async)
+repo_url: https://github.com/robertruben98/revolut-merchant-py
+repo_name: robertruben98/revolut-merchant-py
+
+theme:
+  name: material
+  features:
+    - navigation.sections
+    - content.code.copy
+  palette:
+    - scheme: default
+      primary: black
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - scheme: slate
+      primary: black
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: [src]
+          options:
+            show_root_heading: true
+            show_source: false
+            members_order: source
+
+exclude_docs: |
+  superpowers/
+
+nav:
+  - Home: index.md
+  - Usage: usage.md
+  - API reference: api.md

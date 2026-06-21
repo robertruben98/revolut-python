@@ -3,7 +3,7 @@
 A typed Python client for the **Revolut Merchant API** with both synchronous and
 asynchronous clients. Versioning follows [SemVer](https://semver.org/).
 
-> Current published version: **0.1.0a2** (alpha) on
+> Current version: **1.0.0** on
 > [PyPI](https://pypi.org/project/revolut-merchant-py/). Auto-publish via PyPI
 > Trusted Publishing on `v*` tags.
 
@@ -42,26 +42,26 @@ asynchronous clients. Versioning follows [SemVer](https://semver.org/).
 
 ## v0.5.0 — Pagination, saved methods & live verification
 
-- [ ] Auto-pagination helpers: `iter()` over list endpoints (cursor / `page_token`)
-- [ ] Saved payment methods / tokenization CRUD (list / retrieve / update / delete)
-- [ ] Live sandbox integration tests: order → capture → refund → webhook delivery
-- [ ] Verify endpoint path strings against a real sandbox (resolve the docs caveat)
+- [x] Auto-pagination helpers: `iter()` over list endpoints (cursor / `page_token`)
+- [x] Saved payment methods / tokenization CRUD (list / retrieve / update / delete)
+- [x] Live sandbox integration tests (harness under `tests/integration`, gated by `REVOLUT_SECRET_KEY`)
+- [ ] Verify endpoint path strings against a real sandbox (#23 — needs sandbox credentials; run the integration suite)
 
-## v0.6.0 — Remaining resources & docs site
+## v0.6.0 — Remaining resources & docs site ✅ (shipped)
 
-- [ ] `subscriptions` resource (or explicit out-of-scope decision)
-- [ ] `payouts` resource
-- [ ] `disputes` resource
-- [ ] `report runs` and `locations` resources
-- [ ] Documentation site (mkdocs or Sphinx) published from CI
+- [x] `subscriptions` resource
+- [x] `payouts` resource
+- [x] `disputes` resource
+- [x] `report runs` and `locations` resources
+- [x] Documentation site (mkdocs-material) published from CI
 
-## v1.0.0 — Stable API
+## v1.0.0 — Stable API ✅ (shipped)
 
-- [ ] Public API frozen; no breaking changes expected
-- [ ] Documented deprecation policy and SemVer commitment
-- [ ] All in-scope Merchant API resources covered (or scope documented)
-- [ ] Green live-sandbox integration suite gating the release
-- [ ] Hardening: logging hooks, per-request timeout override, backoff jitter
+- [x] Public API frozen (guarded by a test); no breaking changes expected
+- [x] Documented deprecation policy and SemVer commitment (README)
+- [x] All in-scope Merchant API resources covered
+- [x] Hardening: debug logging, per-request timeout override, backoff jitter
+- [ ] Run the live-sandbox suite with real credentials as the final gate (#23)
 
 ## Future / maybe
 

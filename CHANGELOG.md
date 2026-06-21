@@ -6,6 +6,8 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [1.0.0] - 2026-06-21
+
 ### Added
 - Auto-pagination helpers: `orders.iter()` (cursor) and `customers.iter()`
   (`page_token`), sync and async, with `max_items`.
@@ -17,6 +19,12 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   override, and debug logging via the `revolut` logger.
 - Live sandbox integration test suite under `tests/integration` (skipped unless
   `REVOLUT_SECRET_KEY` is set).
+- Documentation site (mkdocs-material + mkdocstrings) built and deployed from CI.
+
+### Changed
+- **Stable 1.0.0**: the public API (`revolut.__all__` + documented client
+  resource attributes) is now frozen under SemVer; see the README stability
+  policy. A test guards the public surface against accidental changes.
 
 ## [0.1.0] - 2026-06-21
 
