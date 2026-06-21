@@ -100,6 +100,36 @@ refund = client.refunds.create(order.id, amount=2500, idempotency_key="INV-42-r1
 assert refund.type == "refund"
 ```
 
+## Pagination
+
+List endpoints accept paging params, or use `iter()` to stream across all pages
+transparently (sync yields, async is an async iterator):
+
+```python
+for order in client.orders.iter(state="completed", limit=100):
+    ...
+
+for customer in client.customers.iter(max_items=500):
+    ...
+
+# async
+async for order in async_client.orders.iter():
+    ...
+```
+
+## Saved payment methods
+
+Tokenized methods live under a customer; charge one via `payments.pay`:
+
+```python
+methods = client.payment_methods.list(customer_id, only_merchant=True)
+client.payment_methods.retrieve(customer_id, methods[0].id)
+client.payment_methods.delete(customer_id, methods[0].id)
+
+# charge a saved method against an existing order
+client.payments.pay(order.id, payment_method_id=methods[0].id)
+```
+
 ## Webhooks
 
 Verify the authenticity of incoming webhook deliveries (HMAC-SHA256, replay
@@ -158,13 +188,6 @@ pytest
 
 ## License
 
-```bash
-pip install -e ".[dev]"
-ruff check . && ruff format --check .
-mypy
-pytest
-```
-
-## License
+[MIT](LICENSE)
 
 [MIT](LICENSE)

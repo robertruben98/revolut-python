@@ -11,6 +11,7 @@ from .common import (
 from .customer import Customer
 from .order import Order, OrderList
 from .payment import Payment
+from .payment_method import PaymentMethod
 from .refund import Refund
 from .webhook import Webhook, WebhookEvent, WebhookEventPayload
 
@@ -23,6 +24,7 @@ __all__ = [
     "OrderState",
     "OrderType",
     "Payment",
+    "PaymentMethod",
     "PaymentState",
     "Refund",
     "RevolutModel",

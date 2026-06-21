@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from collections.abc import AsyncIterator, Iterator
 from typing import Any
 
 from .._http.base import RequestSpec
@@ -9,6 +10,20 @@ from ..models.order import Order
 from .base import AsyncResource, SyncResource, clean_params, drop_none
 
 _BASE = "/api/orders"
+
+
+def _next_cursor(order: Order) -> str | None:
+    """Cursor for the next orders page: the oldest order's ``created_at`` (ISO).
+
+    Orders are returned newest-first; ``created_before`` excludes already-seen
+    items. The exact cursor field is confirmed against a live sandbox in #23.
+    """
+    created = order.created_at
+    if created is None:
+        return None
+    if hasattr(created, "isoformat"):
+        return created.isoformat().replace("+00:00", "Z")
+    return str(created)
 
 
 def _create_spec(
@@ -122,6 +137,38 @@ class OrdersResource(SyncResource):
         spec = RequestSpec("POST", f"{_BASE}/{order_id}/cancel")
         return Order.model_validate(self._transport.request(spec))
 
+    def iter(
+        self,
+        *,
+        limit: int = 100,
+        max_items: int | None = None,
+        **params: Any,
+    ) -> Iterator[Order]:
+        """Iterate over orders across pages, following the ``created_before`` cursor.
+
+        Stops when a page returns fewer than ``limit`` items, when ``max_items``
+        is reached, or when the cursor stops advancing.
+        """
+        fetched = 0
+        page_params: dict[str, Any] = {**params, "limit": limit}
+        last_cursor: str | None = None
+        while True:
+            page = self.list(**page_params)
+            if not page:
+                return
+            for order in page:
+                yield order
+                fetched += 1
+                if max_items is not None and fetched >= max_items:
+                    return
+            if len(page) < limit:
+                return
+            cursor = _next_cursor(page[-1])
+            if cursor is None or cursor == last_cursor:
+                return
+            last_cursor = cursor
+            page_params["created_before"] = cursor
+
 
 class AsyncOrdersResource(AsyncResource):
     """Asynchronous orders operations."""
@@ -191,3 +238,31 @@ class AsyncOrdersResource(AsyncResource):
     async def cancel(self, order_id: str) -> Order:
         spec = RequestSpec("POST", f"{_BASE}/{order_id}/cancel")
         return Order.model_validate(await self._transport.request(spec))
+
+    async def iter(
+        self,
+        *,
+        limit: int = 100,
+        max_items: int | None = None,
+        **params: Any,
+    ) -> AsyncIterator[Order]:
+        """Async counterpart of :meth:`OrdersResource.iter`."""
+        fetched = 0
+        page_params: dict[str, Any] = {**params, "limit": limit}
+        last_cursor: str | None = None
+        while True:
+            page = await self.list(**page_params)
+            if not page:
+                return
+            for order in page:
+                yield order
+                fetched += 1
+                if max_items is not None and fetched >= max_items:
+                    return
+            if len(page) < limit:
+                return
+            cursor = _next_cursor(page[-1])
+            if cursor is None or cursor == last_cursor:
+                return
+            last_cursor = cursor
+            page_params["created_before"] = cursor
