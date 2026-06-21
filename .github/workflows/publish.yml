@@ -34,7 +34,7 @@ jobs:
     # (https://docs.pypi.org/trusted-publishers/). No API token needed.
     environment:
       name: pypi
-      url: https://pypi.org/p/revolut-merchant
+      url: https://pypi.org/p/revolut-merchant-py
     permissions:
       id-token: write  # OIDC token for Trusted Publishing
     steps:

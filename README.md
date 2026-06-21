@@ -1,7 +1,7 @@
-# revolut-python
+# revolut-merchant-py
 
-[![CI](https://github.com/robertruben98/revolut-python/actions/workflows/ci.yml/badge.svg)](https://github.com/robertruben98/revolut-python/actions/workflows/ci.yml)
-[![PyPI](https://img.shields.io/pypi/v/revolut-merchant)](https://pypi.org/project/revolut-merchant/)
+[![CI](https://github.com/robertruben98/revolut-merchant-py/actions/workflows/ci.yml/badge.svg)](https://github.com/robertruben98/revolut-merchant-py/actions/workflows/ci.yml)
+[![PyPI](https://img.shields.io/pypi/v/revolut-merchant-py)](https://pypi.org/project/revolut-merchant-py/)
 [![Python](https://img.shields.io/badge/python-3.10%2B-blue)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
@@ -23,10 +23,10 @@ A typed Python client for the [Revolut Merchant API](https://developer.revolut.c
 ## Installation
 
 ```bash
-pip install revolut-merchant
+pip install revolut-merchant-py
 ```
 
-The distribution is published as **`revolut-merchant`**; the import package is
+The distribution is published as **`revolut-merchant-py`**; the import package is
 **`revolut`**:
 
 ```python
@@ -36,7 +36,7 @@ import revolut
 Latest from source:
 
 ```bash
-pip install git+https://github.com/robertruben98/revolut-python.git
+pip install git+https://github.com/robertruben98/revolut-merchant-py.git
 ```
 
 ## Quick start

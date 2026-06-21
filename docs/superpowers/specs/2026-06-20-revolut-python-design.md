@@ -15,7 +15,7 @@ merge to `main`.
 - **Scope:** Merchant API only (orders, payments, refunds, customers, webhooks).
 - **HTTP clients:** both sync (`httpx.Client`) and async (`httpx.AsyncClient`).
 - **Models:** Pydantic v2. Money handled as integer minor units.
-- **Repo:** `github.com/robertruben98/revolut-python`, public, default branch `main`.
+- **Repo:** `github.com/robertruben98/revolut-merchant-py`, public, default branch `main`.
 - **Workflow:** feature branch → PR → CI green → merge to `main`.
 
 ## Architecture

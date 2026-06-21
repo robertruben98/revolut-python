@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "revolut-merchant"
+name = "revolut-merchant-py"
 version = "0.1.0"
 description = "Typed Python client for the Revolut Merchant API (sync + async)."
 readme = "README.md"
@@ -40,10 +40,10 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/robertruben98/revolut-python"
-Repository = "https://github.com/robertruben98/revolut-python"
-Issues = "https://github.com/robertruben98/revolut-python/issues"
-Changelog = "https://github.com/robertruben98/revolut-python/blob/main/CHANGELOG.md"
+Homepage = "https://github.com/robertruben98/revolut-merchant-py"
+Repository = "https://github.com/robertruben98/revolut-merchant-py"
+Issues = "https://github.com/robertruben98/revolut-merchant-py/issues"
+Changelog = "https://github.com/robertruben98/revolut-merchant-py/blob/main/CHANGELOG.md"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/revolut"]

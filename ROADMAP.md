@@ -1,4 +1,4 @@
-# Roadmap — revolut-python
+# Roadmap — revolut-merchant-py
 
 A typed Python client for the **Revolut Merchant API** with both synchronous and
 asynchronous clients. Versioning follows [SemVer](https://semver.org/).
@@ -37,7 +37,7 @@ asynchronous clients. Versioning follows [SemVer](https://semver.org/).
 
 ## Future
 
-- [x] Packaging ready for PyPI as `revolut-merchant` (`revolut-python` taken); release workflow via Trusted Publishing
+- [x] Packaging ready for PyPI as `revolut-merchant-py`; release workflow via Trusted Publishing
 - [ ] First PyPI release (`v0.1.0` tag) after sandbox verification
 - [ ] Optional: Business API module
 - [ ] Sphinx / mkdocs documentation site
