@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "revolut-merchant-py"
-version = "0.1.0a1"
+version = "0.1.0a2"
 description = "Typed Python client for the Revolut Merchant API (sync + async)."
 readme = "README.md"
 requires-python = ">=3.10"
