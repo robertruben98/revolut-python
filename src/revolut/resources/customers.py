@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from collections.abc import AsyncIterator, Iterator
 from typing import Any
 
 from .._http.base import RequestSpec
@@ -9,6 +10,14 @@ from ..models.customer import Customer
 from .base import AsyncResource, SyncResource, clean_params, drop_none
 
 _BASE = "/api/customers"
+
+
+def _extract_token(raw: Any) -> str | None:
+    """Next-page cursor from a customer list response (verified in #23)."""
+    if isinstance(raw, dict):
+        token = raw.get("page_token") or raw.get("next_page_token")
+        return token if isinstance(token, str) else None
+    return None
 
 
 def _create_spec(
@@ -74,6 +83,32 @@ class CustomersResource(SyncResource):
         spec = RequestSpec("DELETE", f"{_BASE}/{customer_id}")
         self._transport.request(spec)
 
+    def iter(
+        self,
+        *,
+        limit: int = 100,
+        max_items: int | None = None,
+        **params: Any,
+    ) -> Iterator[Customer]:
+        """Iterate over customers across pages, following the ``page_token`` cursor."""
+        fetched = 0
+        token: str | None = params.pop("page_token", None)
+        while True:
+            merged = {"limit": limit, "page_token": token, **params}
+            spec = RequestSpec("GET", _BASE, params=clean_params(merged))
+            raw = self._transport.request(spec)
+            page = _parse_customer_list(raw)
+            if not page:
+                return
+            for customer in page:
+                yield customer
+                fetched += 1
+                if max_items is not None and fetched >= max_items:
+                    return
+            token = _extract_token(raw)
+            if not token or len(page) < limit:
+                return
+
 
 class AsyncCustomersResource(AsyncResource):
     """Asynchronous customer operations."""
@@ -118,3 +153,29 @@ class AsyncCustomersResource(AsyncResource):
     async def delete(self, customer_id: str) -> None:
         spec = RequestSpec("DELETE", f"{_BASE}/{customer_id}")
         await self._transport.request(spec)
+
+    async def iter(
+        self,
+        *,
+        limit: int = 100,
+        max_items: int | None = None,
+        **params: Any,
+    ) -> AsyncIterator[Customer]:
+        """Async counterpart of :meth:`CustomersResource.iter`."""
+        fetched = 0
+        token: str | None = params.pop("page_token", None)
+        while True:
+            merged = {"limit": limit, "page_token": token, **params}
+            spec = RequestSpec("GET", _BASE, params=clean_params(merged))
+            raw = await self._transport.request(spec)
+            page = _parse_customer_list(raw)
+            if not page:
+                return
+            for customer in page:
+                yield customer
+                fetched += 1
+                if max_items is not None and fetched >= max_items:
+                    return
+            token = _extract_token(raw)
+            if not token or len(page) < limit:
+                return

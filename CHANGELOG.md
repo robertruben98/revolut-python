@@ -6,6 +6,12 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Added
+- Auto-pagination helpers: `orders.iter()` (cursor) and `customers.iter()`
+  (`page_token`), sync and async, with `max_items`.
+- Saved payment methods resource (`client.payment_methods`): list, retrieve,
+  update, delete; plus the `PaymentMethod` model.
+
 ## [0.1.0] - 2026-06-21
 
 ### Added

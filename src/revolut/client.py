@@ -11,11 +11,13 @@ from .config import DEFAULT_API_VERSION, DEFAULT_TIMEOUT, Environment
 from .resources import (
     AsyncCustomersResource,
     AsyncOrdersResource,
+    AsyncPaymentMethodsResource,
     AsyncPaymentsResource,
     AsyncRefundsResource,
     AsyncWebhooksResource,
     CustomersResource,
     OrdersResource,
+    PaymentMethodsResource,
     PaymentsResource,
     RefundsResource,
     WebhooksResource,
@@ -52,6 +54,7 @@ class RevolutMerchantClient:
         self.payments = PaymentsResource(self._transport)
         self.refunds = RefundsResource(self._transport)
         self.customers = CustomersResource(self._transport)
+        self.payment_methods = PaymentMethodsResource(self._transport)
         self.webhooks = WebhooksResource(self._transport)
 
     def close(self) -> None:
@@ -94,6 +97,7 @@ class AsyncRevolutMerchantClient:
         self.payments = AsyncPaymentsResource(self._transport)
         self.refunds = AsyncRefundsResource(self._transport)
         self.customers = AsyncCustomersResource(self._transport)
+        self.payment_methods = AsyncPaymentMethodsResource(self._transport)
         self.webhooks = AsyncWebhooksResource(self._transport)
 
     async def aclose(self) -> None:
