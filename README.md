@@ -157,6 +157,19 @@ wh = client.webhooks.create(url="https://example.com/cb", events=["ORDER_COMPLET
 print(wh.signing_secret)  # store this to verify future deliveries
 ```
 
+## More resources
+
+The client also exposes `subscriptions`, `payouts`, `disputes`, `report_runs`
+and `locations`, each with the same sync/async parity:
+
+```python
+client.subscriptions.list()
+client.payouts.retrieve("po_...")
+client.disputes.respond("dp_...", evidence={...})
+client.report_runs.create(report_type="payments")
+client.locations.create(name="Web", type="online")
+```
+
 ## Error handling
 
 Non-2xx responses raise a typed subclass of `RevolutError`:

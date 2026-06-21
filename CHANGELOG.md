@@ -11,6 +11,8 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   (`page_token`), sync and async, with `max_items`.
 - Saved payment methods resource (`client.payment_methods`): list, retrieve,
   update, delete; plus the `PaymentMethod` model.
+- New resources (sync + async) with models: `subscriptions`, `payouts`,
+  `disputes`, `report_runs`, `locations`.
 
 ## [0.1.0] - 2026-06-21
 

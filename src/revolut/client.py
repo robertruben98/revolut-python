@@ -10,16 +10,26 @@ from ._http.sync_client import SyncTransport
 from .config import DEFAULT_API_VERSION, DEFAULT_TIMEOUT, Environment
 from .resources import (
     AsyncCustomersResource,
+    AsyncDisputesResource,
+    AsyncLocationsResource,
     AsyncOrdersResource,
     AsyncPaymentMethodsResource,
     AsyncPaymentsResource,
+    AsyncPayoutsResource,
     AsyncRefundsResource,
+    AsyncReportRunsResource,
+    AsyncSubscriptionsResource,
     AsyncWebhooksResource,
     CustomersResource,
+    DisputesResource,
+    LocationsResource,
     OrdersResource,
     PaymentMethodsResource,
     PaymentsResource,
+    PayoutsResource,
     RefundsResource,
+    ReportRunsResource,
+    SubscriptionsResource,
     WebhooksResource,
 )
 
@@ -55,6 +65,11 @@ class RevolutMerchantClient:
         self.refunds = RefundsResource(self._transport)
         self.customers = CustomersResource(self._transport)
         self.payment_methods = PaymentMethodsResource(self._transport)
+        self.subscriptions = SubscriptionsResource(self._transport)
+        self.payouts = PayoutsResource(self._transport)
+        self.disputes = DisputesResource(self._transport)
+        self.report_runs = ReportRunsResource(self._transport)
+        self.locations = LocationsResource(self._transport)
         self.webhooks = WebhooksResource(self._transport)
 
     def close(self) -> None:
@@ -98,6 +113,11 @@ class AsyncRevolutMerchantClient:
         self.refunds = AsyncRefundsResource(self._transport)
         self.customers = AsyncCustomersResource(self._transport)
         self.payment_methods = AsyncPaymentMethodsResource(self._transport)
+        self.subscriptions = AsyncSubscriptionsResource(self._transport)
+        self.payouts = AsyncPayoutsResource(self._transport)
+        self.disputes = AsyncDisputesResource(self._transport)
+        self.report_runs = AsyncReportRunsResource(self._transport)
+        self.locations = AsyncLocationsResource(self._transport)
         self.webhooks = AsyncWebhooksResource(self._transport)
 
     async def aclose(self) -> None:
