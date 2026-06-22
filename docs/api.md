@@ -34,10 +34,6 @@
 
 ::: revolut.Payout
 
-::: revolut.Dispute
-
-::: revolut.ReportRun
-
 ::: revolut.Location
 
 ::: revolut.Webhook
