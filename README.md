@@ -2,6 +2,7 @@
 
 [![CI](https://github.com/robertruben98/revolut-merchant-py/actions/workflows/ci.yml/badge.svg)](https://github.com/robertruben98/revolut-merchant-py/actions/workflows/ci.yml)
 [![PyPI](https://img.shields.io/pypi/v/revolut-merchant-py)](https://pypi.org/project/revolut-merchant-py/)
+[![Docs](https://img.shields.io/badge/docs-online-blue)](https://robertruben98.github.io/revolut-merchant-py/)
 [![Python](https://img.shields.io/badge/python-3.10%2B-blue)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
